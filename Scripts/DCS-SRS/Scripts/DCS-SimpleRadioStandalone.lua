@@ -145,7 +145,7 @@ LuaExportActivityNextEvent = function(tCurrent)
                 _update = SR.exportRadioL39(_update)
             elseif _update.unit == "Yak-52" then
                 _update = SR.exportRadioYak52(_update)
-            elseif string.find(_update.unit, "A-10C",1,true) then
+            elseif string.find(_update.unit, "A-10C",1,true) or string.find(_update.unit, "A-10C_2",1,true) then
                 _update = SR.exportRadioA10C(_update)
             elseif _update.unit == "FA-18C_hornet" then
                 _update = SR.exportRadioFA18C(_update)
