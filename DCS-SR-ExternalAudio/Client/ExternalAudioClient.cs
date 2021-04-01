@@ -34,6 +34,8 @@ namespace Ciribob.DCS.SimpleRadio.Standalone.ExternalAudioClient.Client
         private readonly string SpeakerGender;
         private readonly string SpeakerCulture;
 
+        private string ipAddress = "127.0.0.1";
+
 
         public ExternalAudioClient(string mp3Path, double[] freq, RadioInformation.Modulation[] modulation, int coalition, int port, string name, float volume, string SpeakerGender, string SpeakerCulture)
         {
@@ -73,7 +75,7 @@ namespace Ciribob.DCS.SimpleRadio.Standalone.ExternalAudioClient.Client
                 Logger.Info($"Frequency: {freq[i]} Hz - {modulation[i]} ");
             }
             Logger.Info($"Coalition: {coalition} ");
-            Logger.Info($"IP: 127.0.0.1 ");
+            Logger.Info($"IP: {ipAddress} ");
             Logger.Info($"Port: {port} ");
             Logger.Info($"Client Name: {name} ");
             Logger.Info($"Volume: {volume} ");
@@ -82,7 +84,7 @@ namespace Ciribob.DCS.SimpleRadio.Standalone.ExternalAudioClient.Client
 
             var srsClientSyncHandler = new SRSClientSyncHandler(Guid, gameState,name, coalition);
 
-            srsClientSyncHandler.TryConnect(new IPEndPoint(IPAddress.Loopback, port));
+            srsClientSyncHandler.TryConnect(new IPEndPoint(IPAddress.Parse(ipAddress), port));
 
             //wait for it to end
             finished.Token.WaitHandle.WaitOne();
@@ -99,7 +101,7 @@ namespace Ciribob.DCS.SimpleRadio.Standalone.ExternalAudioClient.Client
             if (udpVoiceHandler == null)
             {
                 Logger.Info($"Connecting UDP VoIP");
-                udpVoiceHandler = new UdpVoiceHandler(Guid, IPAddress.Loopback, port, gameState);
+                udpVoiceHandler = new UdpVoiceHandler(Guid, IPAddress.Parse(ipAddress), port, gameState);
                 udpVoiceHandler.Start();
                 new Thread(SendAudio).Start();
             }
